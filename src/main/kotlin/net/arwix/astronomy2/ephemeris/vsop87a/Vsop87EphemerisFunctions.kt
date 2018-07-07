@@ -40,7 +40,7 @@ fun createVsop87Coordinates(idVsop87Body: IdVsop87Body): getHeliocentricEcliptic
     }
 }
 
-fun createCoruntineVsop87Coordinates(idVsop87Body: IdVsop87Body): getCoroutineHeliocentricEclipticCoordinates {
+fun createCoroutineVsop87Coordinates(idVsop87Body: IdVsop87Body): getCoroutineHeliocentricEclipticCoordinates {
     val data = when (idVsop87Body) {
         ID_VSOP87_SUN -> return { _ -> RectangularVector() }
         ID_VSOP87_EARTH -> EarthData
@@ -50,47 +50,35 @@ fun createCoruntineVsop87Coordinates(idVsop87Body: IdVsop87Body): getCoroutineHe
     return { jT ->
         val jT10 = jT / 10.0
         val X0 = async { accumulate(data.X0, jT10) }
-        val X1 = async { accumulate(data.X1, jT10) }
-        val X2 = async { accumulate(data.X2, jT10) }
-        val X3 = async { accumulate(data.X3, jT10) }
-        val X4 = async { accumulate(data.X4, jT10) }
-        val X5 = async { accumulate(data.X5, jT10) }
+        val X1 = async { accumulate(data.X1, jT10) * jT10 }
+        val X2 = async { accumulate(data.X2, jT10) * jT10 * jT10 }
+        val X3 = async { accumulate(data.X3, jT10) * jT10 * jT10 * jT10 }
+        val X4 = async { accumulate(data.X4, jT10) * jT10 * jT10 * jT10 * jT10 }
+        val X5 = async { accumulate(data.X5, jT10) * jT10 * jT10 * jT10 * jT10 * jT10 }
+
         val Y0 = async { accumulate(data.Y0, jT10) }
-        val Y1 = async { accumulate(data.Y1, jT10) }
-        val Y2 = async { accumulate(data.Y2, jT10) }
-        val Y3 = async { accumulate(data.Y3, jT10) }
-        val Y4 = async { accumulate(data.Y4, jT10) }
-        val Y5 = async { accumulate(data.Y5, jT10) }
+        val Y1 = async { accumulate(data.Y1, jT10) * jT10 }
+        val Y2 = async { accumulate(data.Y2, jT10) * jT10 * jT10 }
+        val Y3 = async { accumulate(data.Y3, jT10) * jT10 * jT10 * jT10 }
+        val Y4 = async { accumulate(data.Y4, jT10) * jT10 * jT10 * jT10 * jT10 }
+        val Y5 = async { accumulate(data.Y5, jT10) * jT10 * jT10 * jT10 * jT10 * jT10 }
+
         val Z0 = async { accumulate(data.Z0, jT10) }
-        val Z1 = async { accumulate(data.Z1, jT10) }
-        val Z2 = async { accumulate(data.Z2, jT10) }
-        val Z3 = async { accumulate(data.Z3, jT10) }
-        val Z4 = async { accumulate(data.Z4, jT10) }
-        val Z5 = async { accumulate(data.Z5, jT10) }
-        val x = X0.await()
-        +X1.await() * jT10
-        +X2.await() * jT10 * jT10
-        +X3.await() * jT10 * jT10 * jT10
-        +X4.await() * jT10 * jT10 * jT10 * jT10
-        +X5.await() * jT10 * jT10 * jT10 * jT10 * jT10
+        val Z1 = async { accumulate(data.Z1, jT10) * jT10 }
+        val Z2 = async { accumulate(data.Z2, jT10) * jT10 * jT10 }
+        val Z3 = async { accumulate(data.Z3, jT10) * jT10 * jT10 * jT10 }
+        val Z4 = async { accumulate(data.Z4, jT10) * jT10 * jT10 * jT10 * jT10 }
+        val Z5 = async { accumulate(data.Z5, jT10) * jT10 * jT10 * jT10 * jT10 * jT10 }
+
+        val x = X0.await() + X1.await() + X2.await() + X3.await() + X4.await() + X5.await()
 
         if (!coroutineContext.isActive) throw CancellationException()
 
-        val y = Y0.await()
-        +Y1.await() * jT10
-        +Y2.await() * jT10 * jT10
-        +Y3.await() * jT10 * jT10 * jT10
-        +Y4.await() * jT10 * jT10 * jT10 * jT10
-        +Y5.await() * jT10 * jT10 * jT10 * jT10 * jT10
+        val y = Y0.await() + Y1.await() + Y2.await() + Y3.await() + Y4.await() + Y5.await()
 
         if (!coroutineContext.isActive) throw CancellationException()
 
-        val z = Z0.await()
-        +Z1.await() * jT10
-        +Z2.await() * jT10 * jT10
-        +Z3.await() * jT10 * jT10 * jT10
-        +Z4.await() * jT10 * jT10 * jT10 * jT10
-        +Z5.await() * jT10 * jT10 * jT10 * jT10 * jT10
+        val z = Z0.await() + Z1.await() + Z2.await() + Z3.await() + Z4.await() + Z5.await()
 
         RectangularVector(x, y, z)
     }

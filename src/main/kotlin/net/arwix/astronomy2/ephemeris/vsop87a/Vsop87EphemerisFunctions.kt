@@ -10,13 +10,13 @@ import kotlin.coroutines.experimental.coroutineContext
 import kotlin.math.cos
 
 fun createVsop87Coordinates(idVsop87Body: IdVsop87Body): getHeliocentricEclipticCoordinates {
-    val data = when(idVsop87Body) {
+    val data = when (idVsop87Body) {
         ID_VSOP87_SUN -> return { _ -> RectangularVector() }
         ID_VSOP87_EARTH -> EarthData
         else -> throw IndexOutOfBoundsException()
     }
 
-    return {jT ->
+    return { jT ->
         val jT10 = jT / 10.0
         RectangularVector(
                 accumulate(data.X0, jT10)
@@ -41,7 +41,7 @@ fun createVsop87Coordinates(idVsop87Body: IdVsop87Body): getHeliocentricEcliptic
 }
 
 fun createCoruntineVsop87Coordinates(idVsop87Body: IdVsop87Body): getCoroutineHeliocentricEclipticCoordinates {
-    val data = when(idVsop87Body) {
+    val data = when (idVsop87Body) {
         ID_VSOP87_SUN -> return { _ -> RectangularVector() }
         ID_VSOP87_EARTH -> EarthData
         else -> throw IndexOutOfBoundsException()
@@ -68,36 +68,34 @@ fun createCoruntineVsop87Coordinates(idVsop87Body: IdVsop87Body): getCoroutineHe
         val Z4 = async { accumulate(data.Z4, jT10) }
         val Z5 = async { accumulate(data.Z5, jT10) }
         val x = X0.await()
-        + X1.await() * jT10
-        + X2.await() * jT10 * jT10
-        + X3.await() * jT10 * jT10 * jT10
-        + X4.await() * jT10 * jT10 * jT10 * jT10
-        + X5.await() * jT10 * jT10 * jT10 * jT10 * jT10
+        +X1.await() * jT10
+        +X2.await() * jT10 * jT10
+        +X3.await() * jT10 * jT10 * jT10
+        +X4.await() * jT10 * jT10 * jT10 * jT10
+        +X5.await() * jT10 * jT10 * jT10 * jT10 * jT10
 
         if (!coroutineContext.isActive) throw CancellationException()
 
         val y = Y0.await()
-        + Y1.await() * jT10
-        + Y2.await() * jT10 * jT10
-        + Y3.await() * jT10 * jT10 * jT10
-        + Y4.await() * jT10 * jT10 * jT10 * jT10
-        + Y5.await() * jT10 * jT10 * jT10 * jT10 * jT10
+        +Y1.await() * jT10
+        +Y2.await() * jT10 * jT10
+        +Y3.await() * jT10 * jT10 * jT10
+        +Y4.await() * jT10 * jT10 * jT10 * jT10
+        +Y5.await() * jT10 * jT10 * jT10 * jT10 * jT10
 
         if (!coroutineContext.isActive) throw CancellationException()
 
         val z = Z0.await()
-        + Z1.await() * jT10
-        + Z2.await() * jT10 * jT10
-        + Z3.await() * jT10 * jT10 * jT10
-        + Z4.await() * jT10 * jT10 * jT10 * jT10
-        + Z5.await() * jT10 * jT10 * jT10 * jT10 * jT10
+        +Z1.await() * jT10
+        +Z2.await() * jT10 * jT10
+        +Z3.await() * jT10 * jT10 * jT10
+        +Z4.await() * jT10 * jT10 * jT10 * jT10
+        +Z5.await() * jT10 * jT10 * jT10 * jT10 * jT10
 
         RectangularVector(x, y, z)
     }
 }
 
-private inline fun accumulate(data: Array<DoubleArray>, jT10: Double): Double {
-    data.fold(0.0) { acc, element ->
-        acc + element[0] * cos(element[1] + element[2] * jT10)
-    }
+private inline fun accumulate(data: Array<DoubleArray>, jT10: Double) = data.fold(0.0) { acc, element ->
+    acc + element[0] * cos(element[1] + element[2] * jT10)
 }

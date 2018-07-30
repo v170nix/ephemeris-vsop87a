@@ -3,6 +3,9 @@ package net.arwix.astronomy2.ephemeris.vsop87a
 import kotlinx.coroutines.experimental.CancellationException
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.isActive
+import net.arwix.astronomy2.core.Ecliptic
+import net.arwix.astronomy2.core.Heliocentric
+import net.arwix.astronomy2.core.J2000
 import net.arwix.astronomy2.core.ephemeris.coordinates.getCoroutineHeliocentricEclipticCoordinates
 import net.arwix.astronomy2.core.ephemeris.coordinates.getHeliocentricEclipticCoordinates
 import net.arwix.astronomy2.core.vector.RectangularVector
@@ -40,12 +43,24 @@ fun createVsop87Coordinates(idVsop87Body: IdVsop87Body): getHeliocentricEcliptic
     }
 }
 
+internal fun getVsopData(idVsop87Body: IdVsop87Body): VsopData =
+        when (idVsop87Body) {
+            ID_VSOP87_MERCURY -> MercuryData
+            ID_VSOP87_VENUS -> VenusData
+            ID_VSOP87_EARTH -> EarthData
+            ID_VSOP87_EM_BARYCENTER -> EarthBarycenter
+            ID_VSOP87_MARS -> MarsData
+            ID_VSOP87_JUPITER -> JupiterData
+            ID_VSOP87_SATURN -> SaturnData
+            ID_VSOP87_URANUS -> UranusData
+            ID_VSOP87_NEPTUNE -> NeptuneData
+            else -> throw IndexOutOfBoundsException()
+        }
+
+@Heliocentric @Ecliptic @J2000
 fun createCoroutineVsop87Coordinates(idVsop87Body: IdVsop87Body): getCoroutineHeliocentricEclipticCoordinates {
-    val data = when (idVsop87Body) {
-        ID_VSOP87_SUN -> return { _ -> RectangularVector() }
-        ID_VSOP87_EARTH -> EarthData
-        else -> throw IndexOutOfBoundsException()
-    }
+    val data: VsopData = if (idVsop87Body == ID_VSOP87_SUN) return  { _ -> RectangularVector() }
+    else getVsopData(idVsop87Body)
 
     return { jT ->
         val jT10 = jT / 10.0

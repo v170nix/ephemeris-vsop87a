@@ -27,7 +27,7 @@ plugins {
 
 group = "net.arwix.astronomy2"
 val artifactID = "ephemeris-vsop87a"
-version = "0.3.0"
+version = "0.3.1"
 
 setProperty("targetCompatibility", JavaVersion.VERSION_1_6)
 setProperty("sourceCompatibility", JavaVersion.VERSION_1_6)

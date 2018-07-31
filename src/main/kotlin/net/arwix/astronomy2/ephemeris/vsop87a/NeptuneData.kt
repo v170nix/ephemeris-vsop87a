@@ -1271,7 +1271,7 @@ internal object NeptuneData: VsopData() {
     }
 
     override val X5 by lazy {
-        arrayOf(doubleArrayOf())
+        arrayOf(doubleArrayOf(0.0, 0.0 ,0.0))
     }
 
     override val Y0 by lazy {
@@ -2509,7 +2509,7 @@ internal object NeptuneData: VsopData() {
     }
 
     override val Y5 by lazy {
-        arrayOf(doubleArrayOf())
+        arrayOf(doubleArrayOf(0.0, 0.0 ,0.0))
     }
 
     override val Z0 by lazy {
@@ -2716,10 +2716,10 @@ internal object NeptuneData: VsopData() {
     }
 
     override val Z4 by lazy {
-        arrayOf(doubleArrayOf())
+        arrayOf(doubleArrayOf(0.0, 0.0 ,0.0))
     }
 
     override val Z5 by lazy {
-        arrayOf(doubleArrayOf())
+        arrayOf(doubleArrayOf(0.0, 0.0 ,0.0))
     }
 }

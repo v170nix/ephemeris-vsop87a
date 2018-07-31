@@ -12,13 +12,24 @@ import net.arwix.astronomy2.core.vector.RectangularVector
 import kotlin.coroutines.experimental.coroutineContext
 import kotlin.math.cos
 
-fun createVsop87Coordinates(idVsop87Body: IdVsop87Body): getHeliocentricEclipticCoordinates {
-    val data = when (idVsop87Body) {
-        ID_VSOP87_SUN -> return { _ -> RectangularVector() }
-        ID_VSOP87_EARTH -> EarthData
-        else -> throw IndexOutOfBoundsException()
-    }
+internal fun getVsopData(idVsop87Body: IdVsop87Body): VsopData =
+        when (idVsop87Body) {
+            ID_VSOP87_MERCURY -> MercuryData
+            ID_VSOP87_VENUS -> VenusData
+            ID_VSOP87_EARTH -> EarthData
+            ID_VSOP87_EM_BARYCENTER -> EarthBarycenter
+            ID_VSOP87_MARS -> MarsData
+            ID_VSOP87_JUPITER -> JupiterData
+            ID_VSOP87_SATURN -> SaturnData
+            ID_VSOP87_URANUS -> UranusData
+            ID_VSOP87_NEPTUNE -> NeptuneData
+            else -> throw IndexOutOfBoundsException()
+        }
 
+@Heliocentric @Ecliptic @J2000
+fun createVsop87ACoordinates(idVsop87Body: IdVsop87Body): getHeliocentricEclipticCoordinates {
+    val data: VsopData = if (idVsop87Body == ID_VSOP87_SUN) return  { _ -> RectangularVector() }
+    else getVsopData(idVsop87Body)
     return { jT ->
         val jT10 = jT / 10.0
         RectangularVector(
@@ -43,22 +54,8 @@ fun createVsop87Coordinates(idVsop87Body: IdVsop87Body): getHeliocentricEcliptic
     }
 }
 
-internal fun getVsopData(idVsop87Body: IdVsop87Body): VsopData =
-        when (idVsop87Body) {
-            ID_VSOP87_MERCURY -> MercuryData
-            ID_VSOP87_VENUS -> VenusData
-            ID_VSOP87_EARTH -> EarthData
-            ID_VSOP87_EM_BARYCENTER -> EarthBarycenter
-            ID_VSOP87_MARS -> MarsData
-            ID_VSOP87_JUPITER -> JupiterData
-            ID_VSOP87_SATURN -> SaturnData
-            ID_VSOP87_URANUS -> UranusData
-            ID_VSOP87_NEPTUNE -> NeptuneData
-            else -> throw IndexOutOfBoundsException()
-        }
-
 @Heliocentric @Ecliptic @J2000
-fun createCoroutineVsop87Coordinates(idVsop87Body: IdVsop87Body): getCoroutineHeliocentricEclipticCoordinates {
+fun createSuspendedVsop87ACoordinates(idVsop87Body: IdVsop87Body): getCoroutineHeliocentricEclipticCoordinates {
     val data: VsopData = if (idVsop87Body == ID_VSOP87_SUN) return  { _ -> RectangularVector() }
     else getVsopData(idVsop87Body)
 

@@ -27,7 +27,7 @@ plugins {
 
 group = "net.arwix.astronomy2"
 val artifactID = "ephemeris-vsop87a"
-version = "0.3.5"
+version = "0.4.0"
 
 setProperty("targetCompatibility", JavaVersion.VERSION_1_6)
 setProperty("sourceCompatibility", JavaVersion.VERSION_1_6)
@@ -43,7 +43,7 @@ repositories {
 val shadowJar: ShadowJar by tasks
 shadowJar.apply {
     baseName = artifactID
-    classifier = null
+    classifier = ""
     dependsOn("classes")
     dependencies {
         exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
@@ -59,8 +59,8 @@ shadowJar.apply {
 
 dependencies {
     compile(kotlin("stdlib"))
-    compile("net.arwix.astronomy2:astronomy-core:0.3.5")
-    compile ("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.4")
+    compile("net.arwix.astronomy2:astronomy-core:0.4.0")
+    compile ("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1")
     testCompile("org.junit.jupiter:junit-jupiter-api:5.2.0")
     testCompile("org.junit.jupiter:junit-jupiter-params:5.2.0")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:5.2.0")

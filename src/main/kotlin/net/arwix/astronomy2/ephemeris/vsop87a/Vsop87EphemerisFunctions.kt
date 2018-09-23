@@ -6,8 +6,8 @@ import kotlinx.coroutines.experimental.isActive
 import net.arwix.astronomy2.core.Ecliptic
 import net.arwix.astronomy2.core.Heliocentric
 import net.arwix.astronomy2.core.J2000
-import net.arwix.astronomy2.core.ephemeris.coordinates.getCoroutineHeliocentricEclipticCoordinates
-import net.arwix.astronomy2.core.ephemeris.coordinates.getHeliocentricEclipticCoordinates
+import net.arwix.astronomy2.core.ephemeris.coordinates.createHeliocentricEclipticCoordinates
+import net.arwix.astronomy2.core.ephemeris.coordinates.createSuspendHeliocentricEclipticCoordinates
 import net.arwix.astronomy2.core.vector.RectangularVector
 import kotlin.coroutines.experimental.coroutineContext
 import kotlin.math.cos
@@ -27,7 +27,7 @@ internal fun getVsopData(idVsop87Body: IdVsop87Body): VsopData =
         }
 
 @Heliocentric @Ecliptic @J2000
-fun createVsop87ACoordinates(idVsop87Body: IdVsop87Body): getHeliocentricEclipticCoordinates {
+fun createVsop87ACoordinates(idVsop87Body: IdVsop87Body): createHeliocentricEclipticCoordinates {
     val data: VsopData = if (idVsop87Body == ID_VSOP87_SUN) return  { _ -> RectangularVector() }
     else getVsopData(idVsop87Body)
     return { jT ->
@@ -55,7 +55,7 @@ fun createVsop87ACoordinates(idVsop87Body: IdVsop87Body): getHeliocentricEclipti
 }
 
 @Heliocentric @Ecliptic @J2000
-fun createSuspendedVsop87ACoordinates(idVsop87Body: IdVsop87Body): getCoroutineHeliocentricEclipticCoordinates {
+fun createSuspendedVsop87ACoordinates(idVsop87Body: IdVsop87Body): createSuspendHeliocentricEclipticCoordinates {
     val data: VsopData = if (idVsop87Body == ID_VSOP87_SUN) return  { _ -> RectangularVector() }
     else getVsopData(idVsop87Body)
 
@@ -96,6 +96,6 @@ fun createSuspendedVsop87ACoordinates(idVsop87Body: IdVsop87Body): getCoroutineH
     }
 }
 
-private inline fun accumulate(data: Array<DoubleArray>, jT10: Double) = data.fold(0.0) { acc, element ->
+private fun accumulate(data: Array<DoubleArray>, jT10: Double) = data.fold(0.0) { acc, element ->
     acc + element[0] * cos(element[1] + element[2] * jT10)
 }

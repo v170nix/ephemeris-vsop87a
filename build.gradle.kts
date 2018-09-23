@@ -18,7 +18,7 @@ import org.gradle.api.tasks.bundling.Jar
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
 plugins {
-    kotlin("jvm") version "1.2.51"
+    kotlin("jvm") version "1.2.70"
     id("com.github.johnrengelman.shadow") version "2.0.2"
 //    id("java")
     `maven-publish`

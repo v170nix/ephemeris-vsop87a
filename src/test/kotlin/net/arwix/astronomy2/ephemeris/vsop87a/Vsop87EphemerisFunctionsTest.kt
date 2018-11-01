@@ -1,7 +1,6 @@
 package net.arwix.astronomy2.ephemeris.vsop87a
 
-import kotlinx.coroutines.experimental.runBlocking
-import org.junit.jupiter.api.Test
+import kotlinx.coroutines.runBlocking
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.TestInstance

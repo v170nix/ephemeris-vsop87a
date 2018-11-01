@@ -1,15 +1,14 @@
 package net.arwix.astronomy2.ephemeris.vsop87a
 
-import kotlinx.coroutines.experimental.CancellationException
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.isActive
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.async
+import kotlinx.coroutines.isActive
 import net.arwix.astronomy2.core.Ecliptic
 import net.arwix.astronomy2.core.Heliocentric
 import net.arwix.astronomy2.core.J2000
 import net.arwix.astronomy2.core.ephemeris.coordinates.createHeliocentricEclipticCoordinates
 import net.arwix.astronomy2.core.ephemeris.coordinates.createSuspendHeliocentricEclipticCoordinates
 import net.arwix.astronomy2.core.vector.RectangularVector
-import kotlin.coroutines.experimental.coroutineContext
 import kotlin.math.cos
 
 internal fun getVsopData(idVsop87Body: IdVsop87Body): VsopData =

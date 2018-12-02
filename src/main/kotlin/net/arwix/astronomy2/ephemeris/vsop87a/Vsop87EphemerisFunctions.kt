@@ -55,7 +55,7 @@ fun createVsop87ACoordinates(idVsop87Body: IdVsop87Body): createHeliocentricEcli
 
 @Heliocentric @Ecliptic @J2000
 fun createSuspendedVsop87ACoordinates(idVsop87Body: IdVsop87Body): createSuspendHeliocentricEclipticCoordinates {
-    val data: VsopData = if (idVsop87Body == ID_VSOP87_SUN) return  { _ -> RectangularVector() }
+    val data: VsopData = if (idVsop87Body == ID_VSOP87_SUN) return  { RectangularVector() }
     else getVsopData(idVsop87Body)
 
     return { jT ->

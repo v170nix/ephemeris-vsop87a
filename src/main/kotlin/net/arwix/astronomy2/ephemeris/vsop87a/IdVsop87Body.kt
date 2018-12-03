@@ -12,21 +12,3 @@ const val ID_VSOP87_JUPITER: IdVsop87Body = 5
 const val ID_VSOP87_SATURN: IdVsop87Body = 6
 const val ID_VSOP87_URANUS: IdVsop87Body = 7
 const val ID_VSOP87_NEPTUNE: IdVsop87Body = 8
-
-enum class Vsop87Body {
-    Sun, Mercury, Venus, Earth, EarthBarycenter, Mars, Jupiter, Saturn, Uranus, Neptune;
-
-    internal fun getData() =
-        when (this) {
-            Mercury -> MercuryData
-            Venus -> VenusData
-            Earth -> EarthData
-            EarthBarycenter -> EarthBarycenterData
-            Mars -> MarsData
-            Jupiter -> JupiterData
-            Saturn -> SaturnData
-            Uranus -> UranusData
-            Neptune -> NeptuneData
-            else -> throw IllegalStateException()
-        }
-}

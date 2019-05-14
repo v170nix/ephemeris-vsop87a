@@ -12,7 +12,7 @@ package net.arwix.astronomy2.ephemeris.vsop87a
    t = (JD - 2451545) / 365250
 */
 
-internal object MercuryData: VsopData() {
+object Vsop87AMercuryData: VsopData() {
 
     override val X0 by lazy {
         arrayOf(

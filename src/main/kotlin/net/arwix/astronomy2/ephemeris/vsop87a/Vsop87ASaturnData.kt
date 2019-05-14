@@ -1,6 +1,6 @@
 package net.arwix.astronomy2.ephemeris.vsop87a
 
-internal object SaturnData: VsopData() {
+object Vsop87ASaturnData: VsopData() {
     override val X0 by lazy {
         arrayOf(
                 doubleArrayOf(9.51638335797, 0.87441380794, 213.29909543800),

@@ -1,6 +1,6 @@
 package net.arwix.astronomy2.ephemeris.vsop87a
 
-internal abstract class VsopData {
+abstract class VsopData {
     abstract internal val X0: Array<DoubleArray>
     abstract internal val X1: Array<DoubleArray>
     abstract internal val X2: Array<DoubleArray>

@@ -1,6 +1,6 @@
 package net.arwix.astronomy2.ephemeris.vsop87a
 
-internal object EarthBarycenterData: VsopData() {
+object Vsop87AEarthBarycenterData: VsopData() {
 
     override val X0 by lazy {
         arrayOf(

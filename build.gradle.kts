@@ -49,7 +49,7 @@ shadowJar.apply {
 dependencies {
     implementation(kotlin("stdlib-jdk7"))
     implementation(kotlin("stdlib"))
-    implementation("net.arwix.astronomy2:astronomy-core:0.8.1")
+    implementation("net.arwix.astronomy2:astronomy-core:0.8.7-b")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.2.0")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.2.0")

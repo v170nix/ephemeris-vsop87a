@@ -14,7 +14,7 @@ internal class Vsop87EphemerisFunctionsTest {
     @MethodSource("getData")
     fun `Coordinates`(data: Data) {
         runBlocking {
-            val vector = createSuspendedVsop87ACoordinates(data.id).invoke(data.jT).also {
+            val vector =getVsop87ACoordinates(data.id, data.jT).also {
                 System.out.println(it)
             }
             assertArrayEquals(data.vector, vector.toArray())

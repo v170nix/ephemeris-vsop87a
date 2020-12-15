@@ -32,7 +32,7 @@ repositories {
 val shadowJar: ShadowJar by tasks
 shadowJar.apply {
     baseName = artifactID
-    classifier = ""
+    classifier = "sources"
     dependsOn("classes")
     dependencies {
         exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
